@@ -23,7 +23,6 @@ module Statistics.Distribution.FDistribution (
   ) where
 
 import Control.Applicative
-import Data.Aeson             (FromJSON(..), ToJSON, Value(..), (.:))
 import Data.Binary            (Binary(..))
 import Data.Data              (Data, Typeable)
 import GHC.Generics           (Generic)
@@ -47,14 +46,6 @@ instance Show FDistribution where
   showsPrec i (F n m _) = defaultShow2 "fDistributionReal" n m i
 instance Read FDistribution where
   readPrec = defaultReadPrecM2 "fDistributionReal" fDistributionRealE
-
-instance ToJSON FDistribution
-instance FromJSON FDistribution where
-  parseJSON (Object v) = do
-    n <- v .: "fDistributionNDF1"
-    m <- v .: "fDistributionNDF2"
-    maybe (fail $ errMsgR n m) return $ fDistributionRealE n m
-  parseJSON _ = empty
 
 instance Binary FDistribution where
   put (F n m _) = put n >> put m

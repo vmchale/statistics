@@ -46,7 +46,6 @@ module Statistics.Sample.KernelDensity.Simple
     -- $references
     ) where
 
-import Data.Aeson (FromJSON, ToJSON)
 import Data.Binary (Binary(..))
 import Data.Data (Data, Typeable)
 import Data.Vector.Binary ()
@@ -63,9 +62,6 @@ import qualified Data.Vector.Unboxed as U
 newtype Points = Points {
       fromPoints :: U.Vector Double
     } deriving (Eq, Read, Show, Typeable, Data, Generic)
-
-instance FromJSON Points
-instance ToJSON Points
 
 instance Binary Points where
     get = fmap Points get

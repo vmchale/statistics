@@ -17,7 +17,6 @@ module Statistics.Distribution.Transform
     , scaleAround
     ) where
 
-import Data.Aeson (FromJSON, ToJSON)
 import Control.Applicative ((<*>))
 import Data.Binary (Binary)
 import Data.Binary (put, get)
@@ -38,9 +37,6 @@ data LinearTransform d = LinearTransform
   , linTransDistr    :: d
     -- ^ Distribution being transformed.
   } deriving (Eq, Show, Read, Typeable, Data, Generic)
-
-instance (FromJSON d) => FromJSON (LinearTransform d)
-instance (ToJSON d) => ToJSON (LinearTransform d)
 
 instance (Binary d) => Binary (LinearTransform d) where
     get = LinearTransform <$> get <*> get <*> get

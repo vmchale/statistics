@@ -21,7 +21,6 @@ module Statistics.Distribution.ChiSquared (
         ) where
 
 import Control.Applicative
-import Data.Aeson            (FromJSON(..), ToJSON, Value(..), (.:))
 import Data.Binary           (Binary(..))
 import Data.Data             (Data, Typeable)
 import GHC.Generics          (Generic)
@@ -45,13 +44,6 @@ instance Show ChiSquared where
   showsPrec i (ChiSquared n) = defaultShow1 "chiSquared" n i
 instance Read ChiSquared where
   readPrec = defaultReadPrecM1 "chiSquared" chiSquaredE
-
-instance ToJSON ChiSquared
-instance FromJSON ChiSquared where
-  parseJSON (Object v) = do
-    n <- v .: "chiSquaredNDF"
-    maybe (fail $ errMsg n) return $ chiSquaredE n
-  parseJSON _ = empty
 
 instance Binary ChiSquared where
   put (ChiSquared x) = put x

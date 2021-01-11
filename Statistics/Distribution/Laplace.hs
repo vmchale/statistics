@@ -29,7 +29,6 @@ module Statistics.Distribution.Laplace
     ) where
 
 import Control.Applicative
-import Data.Aeson           (FromJSON(..), ToJSON, Value(..), (.:))
 import Data.Binary          (Binary(..))
 import Data.Data            (Data, Typeable)
 import GHC.Generics         (Generic)
@@ -51,14 +50,6 @@ instance Show LaplaceDistribution where
   showsPrec i (LD l s) = defaultShow2 "laplace" l s i
 instance Read LaplaceDistribution where
   readPrec = defaultReadPrecM2 "laplace" laplaceE
-
-instance ToJSON LaplaceDistribution
-instance FromJSON LaplaceDistribution where
-  parseJSON (Object v) = do
-    l <- v .: "ldLocation"
-    s <- v .: "ldScale"
-    maybe (fail $ errMsg l s) return $ laplaceE l s
-  parseJSON _ = empty
 
 instance Binary LaplaceDistribution where
   put (LD l s) = put l >> put s

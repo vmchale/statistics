@@ -29,7 +29,6 @@ module Statistics.Distribution.Gamma
     ) where
 
 import Control.Applicative
-import Data.Aeson           (FromJSON(..), ToJSON, Value(..), (.:))
 import Data.Binary          (Binary(..))
 import Data.Data            (Data, Typeable)
 import GHC.Generics         (Generic)
@@ -53,14 +52,6 @@ instance Show GammaDistribution where
 instance Read GammaDistribution where
   readPrec = defaultReadPrecM2 "improperGammaDistr" improperGammaDistrE
 
-
-instance ToJSON GammaDistribution
-instance FromJSON GammaDistribution where
-  parseJSON (Object v) = do
-    k     <- v .: "gdShape"
-    theta <- v .: "gdScale"
-    maybe (fail $ errMsgI k theta) return $ improperGammaDistrE k theta
-  parseJSON _ = empty
 
 instance Binary GammaDistribution where
   put (GD x y) = put x >> put y

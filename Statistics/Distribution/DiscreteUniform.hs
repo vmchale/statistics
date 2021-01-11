@@ -29,7 +29,6 @@ module Statistics.Distribution.DiscreteUniform
     ) where
 
 import Control.Applicative ((<$>), (<*>), empty)
-import Data.Aeson   (FromJSON(..), ToJSON, Value(..), (.:))
 import Data.Binary  (Binary(..))
 import Data.Data    (Data, Typeable)
 import GHC.Generics (Generic)
@@ -51,14 +50,6 @@ instance Show DiscreteUniform where
   showsPrec i (U a b) = defaultShow2 "discreteUniformAB" a b i
 instance Read DiscreteUniform where
   readPrec = defaultReadPrecM2 "discreteUniformAB" (\a b -> Just (discreteUniformAB a b))
-
-instance ToJSON   DiscreteUniform
-instance FromJSON DiscreteUniform where
-  parseJSON (Object v) = do
-    a <- v .: "uniformA"
-    b <- v .: "uniformB"
-    return $ discreteUniformAB a b
-  parseJSON _ = empty
 
 instance Binary DiscreteUniform where
   put (U a b) = put a >> put b

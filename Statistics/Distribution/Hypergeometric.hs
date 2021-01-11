@@ -30,7 +30,6 @@ module Statistics.Distribution.Hypergeometric
     ) where
 
 import Control.Applicative
-import Data.Aeson           (FromJSON(..), ToJSON, Value(..), (.:))
 import Data.Binary          (Binary(..))
 import Data.Data            (Data, Typeable)
 import GHC.Generics         (Generic)
@@ -51,15 +50,6 @@ instance Show HypergeometricDistribution where
   showsPrec i (HD m l k) = defaultShow3 "hypergeometric" m l k i
 instance Read HypergeometricDistribution where
   readPrec = defaultReadPrecM3 "hypergeometric" hypergeometricE
-
-instance ToJSON HypergeometricDistribution
-instance FromJSON HypergeometricDistribution where
-  parseJSON (Object v) = do
-    m <- v .: "hdM"
-    l <- v .: "hdL"
-    k <- v .: "hdK"
-    maybe (fail $ errMsg m l k) return $ hypergeometricE m l k
-  parseJSON _ = empty
 
 instance Binary HypergeometricDistribution where
   put (HD m l k) = put m >> put l >> put k

@@ -112,7 +112,6 @@ library
                , math-functions          >= 0.3
                , mwc-random              >= 0.13.0.0
                  --
-               , aeson                   >= 0.6.0.0
                , async                   >= 2.2.2 && <2.3
                , deepseq                 >= 1.1.0.2
                , binary                  >= 0.5.1.0

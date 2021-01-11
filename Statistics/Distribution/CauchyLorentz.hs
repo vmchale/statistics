@@ -24,7 +24,6 @@ module Statistics.Distribution.CauchyLorentz (
   ) where
 
 import Control.Applicative
-import Data.Aeson             (FromJSON(..), ToJSON, Value(..), (.:))
 import Data.Binary            (Binary(..))
 import Data.Maybe             (fromMaybe)
 import Data.Data              (Data, Typeable)
@@ -49,14 +48,6 @@ instance Show CauchyDistribution where
   showsPrec i (CD m s) = defaultShow2 "cauchyDistribution" m s i
 instance Read CauchyDistribution where
   readPrec = defaultReadPrecM2 "cauchyDistribution" cauchyDistributionE
-
-instance ToJSON   CauchyDistribution
-instance FromJSON CauchyDistribution where
-  parseJSON (Object v) = do
-    m <- v .: "cauchyDistribMedian"
-    s <- v .: "cauchyDistribScale"
-    maybe (fail $ errMsg m s) return $ cauchyDistributionE m s
-  parseJSON _ = empty
 
 instance Binary CauchyDistribution where
     put (CD m s) = put m >> put s

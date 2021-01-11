@@ -23,7 +23,6 @@ module Statistics.Distribution.Normal
     ) where
 
 import Control.Applicative
-import Data.Aeson            (FromJSON(..), ToJSON, Value(..), (.:))
 import Data.Binary           (Binary(..))
 import Data.Data             (Data, Typeable)
 import GHC.Generics          (Generic)
@@ -49,14 +48,6 @@ instance Show NormalDistribution where
   showsPrec i (ND m s _ _) = defaultShow2 "normalDistr" m s i
 instance Read NormalDistribution where
   readPrec = defaultReadPrecM2 "normalDistr" normalDistrE
-
-instance ToJSON NormalDistribution
-instance FromJSON NormalDistribution where
-  parseJSON (Object v) = do
-    m  <- v .: "mean"
-    sd <- v .: "stdDev"
-    maybe (fail $ errMsg m sd) return $ normalDistrE m sd
-  parseJSON _ = empty
 
 instance Binary NormalDistribution where
     put (ND m sd _ _) = put m >> put sd

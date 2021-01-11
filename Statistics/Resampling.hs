@@ -39,7 +39,6 @@ module Statistics.Resampling
     , splitGen
     ) where
 
-import Data.Aeson (FromJSON, ToJSON)
 import Control.Concurrent.Async (forConcurrently_)
 import Control.Monad (forM_, forM, replicateM, liftM2)
 import Control.Monad.Primitive (PrimMonad(..))
@@ -75,9 +74,6 @@ newtype Resample = Resample {
       fromResample :: U.Vector Double
     } deriving (Eq, Read, Show, Typeable, Data, Generic)
 
-instance FromJSON Resample
-instance ToJSON Resample
-
 instance Binary Resample where
     put = put . fromResample
     get = fmap Resample get
@@ -95,9 +91,6 @@ data Bootstrap v a = Bootstrap
 instance (Binary a,   Binary   (v a)) => Binary   (Bootstrap v a) where
   get = liftM2 Bootstrap get get
   put (Bootstrap fs rs) = put fs >> put rs
-instance (FromJSON a, FromJSON (v a)) => FromJSON (Bootstrap v a)
-instance (ToJSON a,   ToJSON   (v a)) => ToJSON   (Bootstrap v a)
-
 
 
 -- | An estimator of a property of a sample, such as its 'mean'.

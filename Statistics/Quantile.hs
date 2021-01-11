@@ -52,7 +52,6 @@ module Statistics.Quantile
     ) where
 
 import           Data.Binary            (Binary)
-import           Data.Aeson             (ToJSON,FromJSON)
 import           Data.Data              (Data,Typeable)
 import           Data.Default.Class
 import qualified Data.Foldable        as F
@@ -136,8 +135,6 @@ instance Default ContParam where
   def = s
 
 instance Binary   ContParam
-instance ToJSON   ContParam
-instance FromJSON ContParam
 
 -- | O(/n/·log /n/). Estimate the /k/th /q/-quantile of a sample /x/,
 --   using the continuous sample method with the given parameters.

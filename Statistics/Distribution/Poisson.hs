@@ -27,7 +27,6 @@ module Statistics.Distribution.Poisson
     ) where
 
 import Control.Applicative
-import Data.Aeson           (FromJSON(..), ToJSON, Value(..), (.:))
 import Data.Binary          (Binary(..))
 import Data.Data            (Data, Typeable)
 import GHC.Generics         (Generic)
@@ -48,13 +47,6 @@ instance Show PoissonDistribution where
   showsPrec i (PD l) = defaultShow1 "poisson" l i
 instance Read PoissonDistribution where
   readPrec = defaultReadPrecM1 "poisson" poissonE
-
-instance ToJSON PoissonDistribution
-instance FromJSON PoissonDistribution where
-  parseJSON (Object v) = do
-    l <- v .: "poissonLambda"
-    maybe (fail $ errMsg l) return $ poissonE l
-  parseJSON _ = empty
 
 instance Binary PoissonDistribution where
   put = put . poissonLambda

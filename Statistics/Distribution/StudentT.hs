@@ -21,7 +21,6 @@ module Statistics.Distribution.StudentT (
   ) where
 
 import Control.Applicative
-import Data.Aeson          (FromJSON(..), ToJSON, Value(..), (.:))
 import Data.Binary         (Binary(..))
 import Data.Data           (Data, Typeable)
 import GHC.Generics        (Generic)
@@ -41,13 +40,6 @@ instance Show StudentT where
   showsPrec i (StudentT ndf) = defaultShow1 "studentT" ndf i
 instance Read StudentT where
   readPrec = defaultReadPrecM1 "studentT" studentTE
-
-instance ToJSON StudentT
-instance FromJSON StudentT where
-  parseJSON (Object v) = do
-    ndf <- v .: "studentTndf"
-    maybe (fail $ errMsg ndf) return $ studentTE ndf
-  parseJSON _ = empty
 
 instance Binary StudentT where
   put = put . studentTndf

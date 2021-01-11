@@ -26,7 +26,6 @@ module Statistics.Distribution.Binomial
     ) where
 
 import Control.Applicative
-import Data.Aeson            (FromJSON(..), ToJSON, Value(..), (.:))
 import Data.Binary           (Binary(..))
 import Data.Data             (Data, Typeable)
 import GHC.Generics          (Generic)
@@ -50,14 +49,6 @@ instance Show BinomialDistribution where
   showsPrec i (BD n p) = defaultShow2 "binomial" n p i
 instance Read BinomialDistribution where
   readPrec = defaultReadPrecM2 "binomial" binomialE
-
-instance ToJSON BinomialDistribution
-instance FromJSON BinomialDistribution where
-  parseJSON (Object v) = do
-    n <- v .: "bdTrials"
-    p <- v .: "bdProbability"
-    maybe (fail $ errMsg n p) return $ binomialE n p
-  parseJSON _ = empty
 
 instance Binary BinomialDistribution where
   put (BD x y) = put x >> put y

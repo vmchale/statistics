@@ -26,7 +26,6 @@ module Statistics.Distribution.Exponential
     ) where
 
 import Control.Applicative
-import Data.Aeson                      (FromJSON(..),ToJSON,Value(..),(.:))
 import Data.Binary                     (Binary, put, get)
 import Data.Data                       (Data, Typeable)
 import GHC.Generics                    (Generic)
@@ -49,13 +48,6 @@ instance Show ExponentialDistribution where
   showsPrec n (ED l) = defaultShow1 "exponential" l n
 instance Read ExponentialDistribution where
   readPrec = defaultReadPrecM1 "exponential" exponentialE
-
-instance ToJSON ExponentialDistribution
-instance FromJSON ExponentialDistribution where
-  parseJSON (Object v) = do
-    l <- v .: "edLambda"
-    maybe (fail $ errMsg l) return $ exponentialE l
-  parseJSON _ = empty
 
 instance Binary ExponentialDistribution where
   put = put . edLambda

@@ -22,7 +22,6 @@ module Statistics.Distribution.Uniform
     ) where
 
 import Control.Applicative
-import Data.Aeson          (FromJSON(..), ToJSON, Value(..), (.:))
 import Data.Binary         (Binary(..))
 import Data.Data           (Data, Typeable)
 import GHC.Generics        (Generic)
@@ -43,14 +42,6 @@ instance Show UniformDistribution where
   showsPrec i (UniformDistribution a b) = defaultShow2 "uniformDistr" a b i
 instance Read UniformDistribution where
   readPrec = defaultReadPrecM2 "uniformDistr" uniformDistrE
-
-instance ToJSON UniformDistribution
-instance FromJSON UniformDistribution where
-  parseJSON (Object v) = do
-    a <- v .: "uniformA"
-    b <- v .: "uniformB"
-    maybe (fail errMsg) return $ uniformDistrE a b
-  parseJSON _ = empty
 
 instance Binary UniformDistribution where
   put (UniformDistribution x y) = put x >> put y

@@ -9,7 +9,6 @@ module Statistics.Test.Types (
 
 import Control.DeepSeq  (NFData(..))
 import Control.Monad    (liftM3)
-import Data.Aeson       (FromJSON, ToJSON)
 import Data.Binary      (Binary (..))
 import Data.Data (Typeable, Data)
 import GHC.Generics
@@ -27,8 +26,6 @@ instance Binary   TestResult where
       sig <- get
       if sig then return Significant else return NotSignificant
   put = put . (== Significant)
-instance FromJSON TestResult
-instance ToJSON   TestResult
 instance NFData   TestResult
 
 
@@ -48,8 +45,6 @@ data Test distr = Test
 instance (Binary   d) => Binary   (Test d) where
   get = liftM3 Test get get get
   put (Test sign stat distr) = put sign >> put stat >> put distr
-instance (FromJSON d) => FromJSON (Test d)
-instance (ToJSON   d) => ToJSON   (Test d)
 instance (NFData   d) => NFData   (Test d) where
   rnf (Test _ _ a) = rnf a
 
@@ -83,8 +78,6 @@ instance Binary   PositionTest where
   put SamplesDiffer = put (0 :: Int)
   put AGreater      = put (1 :: Int)
   put BGreater      = put (2 :: Int)
-instance FromJSON PositionTest
-instance ToJSON   PositionTest
 instance NFData   PositionTest
 
 -- | significant if parameter is 'True', not significant otherwise

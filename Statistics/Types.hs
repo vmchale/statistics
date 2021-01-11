@@ -65,7 +65,6 @@ module Statistics.Types
 
 import Control.Monad                ((<=<), liftM2, liftM3)
 import Control.DeepSeq              (NFData(..))
-import Data.Aeson                   (FromJSON(..), ToJSON)
 import Data.Binary                  (Binary(..))
 import Data.Data                    (Data,Typeable)
 import Data.Maybe                   (fromMaybe)
@@ -116,10 +115,6 @@ instance (Num a, Ord a, Read a) => Read (CL a) where
 instance (Binary a, Num a, Ord a) => Binary (CL a) where
   put (CL p) = put p
   get        = maybe (fail errMkCL) return . mkCLFromSignificanceE =<< get
-
-instance (ToJSON a)                 => ToJSON   (CL a)
-instance (FromJSON a, Num a, Ord a) => FromJSON (CL a) where
-  parseJSON = maybe (fail errMkCL) return . mkCLFromSignificanceE <=< parseJSON
 
 instance NFData   a => NFData   (CL a) where
   rnf (CL a) = rnf a
@@ -221,10 +216,6 @@ instance (Num a, Ord a, Read a) => Read (PValue a) where
 instance (Binary a, Num a, Ord a) => Binary (PValue a) where
   put (PValue p) = put p
   get            = maybe (fail errMkPValue) return . mkPValueE =<< get
-
-instance (ToJSON a)                 => ToJSON   (PValue a)
-instance (FromJSON a, Num a, Ord a) => FromJSON (PValue a) where
-  parseJSON = maybe (fail errMkPValue) return . mkPValueE <=< parseJSON
 
 instance NFData a => NFData (PValue a) where
   rnf (PValue a) = rnf a
@@ -332,8 +323,6 @@ data Estimate e a = Estimate
 instance (Binary   (e a), Binary   a) => Binary   (Estimate e a) where
   get = liftM2 Estimate get get
   put (Estimate ep ee) = put ep >> put ee
-instance (FromJSON (e a), FromJSON a) => FromJSON (Estimate e a)
-instance (ToJSON   (e a), ToJSON   a) => ToJSON   (Estimate e a)
 instance (NFData   (e a), NFData   a) => NFData   (Estimate e a) where
     rnf (Estimate x dx) = rnf x `seq` rnf dx
 
@@ -351,8 +340,6 @@ newtype NormalErr a = NormalErr
 instance Binary   a => Binary   (NormalErr a) where
   get = fmap NormalErr get
   put = put . normalError
-instance FromJSON a => FromJSON (NormalErr a)
-instance ToJSON   a => ToJSON   (NormalErr a)
 instance NFData   a => NFData   (NormalErr a) where
     rnf (NormalErr x) = rnf x
 
@@ -374,8 +361,6 @@ data ConfInt a = ConfInt
 instance Binary   a => Binary   (ConfInt a) where
   get = liftM3 ConfInt get get get
   put (ConfInt l u cl) = put l >> put u >> put cl 
-instance FromJSON a => FromJSON (ConfInt a)
-instance ToJSON   a => ToJSON   (ConfInt a)
 instance NFData   a => NFData   (ConfInt a) where
     rnf (ConfInt x y _) = rnf x `seq` rnf y
 
@@ -464,8 +449,6 @@ data UpperLimit a = UpperLimit
 instance Binary   a => Binary   (UpperLimit a) where
   get = liftM2 UpperLimit get get
   put (UpperLimit l cl) = put l >> put cl
-instance FromJSON a => FromJSON (UpperLimit a)
-instance ToJSON   a => ToJSON   (UpperLimit a)
 instance NFData   a => NFData   (UpperLimit a) where
     rnf (UpperLimit x cl) = rnf x `seq` rnf cl
 
@@ -483,8 +466,6 @@ data LowerLimit a = LowerLimit {
 instance Binary   a => Binary   (LowerLimit a) where
   get = liftM2 LowerLimit get get
   put (LowerLimit l cl) = put l >> put cl
-instance FromJSON a => FromJSON (LowerLimit a)
-instance ToJSON   a => ToJSON   (LowerLimit a)
 instance NFData   a => NFData   (LowerLimit a) where
     rnf (LowerLimit x cl) = rnf x `seq` rnf cl
 

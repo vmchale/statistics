@@ -24,7 +24,6 @@ module Statistics.Distribution.Beta
   ) where
 
 import Control.Applicative
-import Data.Aeson            (FromJSON(..), ToJSON, Value(..), (.:))
 import Data.Binary           (Binary(..))
 import Data.Data             (Data, Typeable)
 import GHC.Generics          (Generic)
@@ -47,14 +46,6 @@ instance Show BetaDistribution where
   showsPrec n (BD a b) = defaultShow2 "improperBetaDistr" a b n
 instance Read BetaDistribution where
   readPrec = defaultReadPrecM2 "improperBetaDistr" improperBetaDistrE
-
-instance ToJSON BetaDistribution
-instance FromJSON BetaDistribution where
-  parseJSON (Object v) = do
-    a <- v .: "bdAlpha"
-    b <- v .: "bdBeta"
-    maybe (fail $ errMsgI a b) return $ improperBetaDistrE a b
-  parseJSON _ = empty
 
 instance Binary BetaDistribution where
   put (BD a b) = put a >> put b

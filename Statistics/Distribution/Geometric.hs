@@ -35,7 +35,6 @@ module Statistics.Distribution.Geometric
 
 import Control.Applicative
 import Control.Monad       (liftM)
-import Data.Aeson          (FromJSON(..), ToJSON, Value(..), (.:))
 import Data.Binary         (Binary(..))
 import Data.Data           (Data, Typeable)
 import GHC.Generics        (Generic)
@@ -59,13 +58,6 @@ instance Show GeometricDistribution where
   showsPrec i (GD x) = defaultShow1 "geometric" x i
 instance Read GeometricDistribution where
   readPrec = defaultReadPrecM1 "geometric" geometricE
-
-instance ToJSON GeometricDistribution
-instance FromJSON GeometricDistribution where
-  parseJSON (Object v) = do
-    x <- v .: "gdSuccess"
-    maybe (fail $ errMsg x) return  $ geometricE x
-  parseJSON _ = empty
 
 instance Binary GeometricDistribution where
   put (GD x) = put x
@@ -157,13 +149,6 @@ instance Show GeometricDistribution0 where
   showsPrec i (GD0 x) = defaultShow1 "geometric0" x i
 instance Read GeometricDistribution0 where
   readPrec = defaultReadPrecM1 "geometric0" geometric0E
-
-instance ToJSON GeometricDistribution0
-instance FromJSON GeometricDistribution0 where
-  parseJSON (Object v) = do
-    x <- v .: "gdSuccess0"
-    maybe (fail $ errMsg x) return  $ geometric0E x
-  parseJSON _ = empty
 
 instance Binary GeometricDistribution0 where
   put (GD0 x) = put x
