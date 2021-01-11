@@ -63,7 +63,6 @@ module Statistics.Types
     , Weights
     ) where
 
-import Control.Monad                ((<=<), liftM2, liftM3)
 import Control.DeepSeq              (NFData(..))
 import Data.Data                    (Data,Typeable)
 import Data.Maybe                   (fromMaybe)
