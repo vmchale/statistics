@@ -21,7 +21,6 @@ module Statistics.Distribution.ChiSquared (
         ) where
 
 import Control.Applicative
-import Data.Binary           (Binary(..))
 import Data.Data             (Data, Typeable)
 import GHC.Generics          (Generic)
 import Numeric.SpecFunctions ( incompleteGamma,invIncompleteGamma,logGamma,digamma)
@@ -44,12 +43,6 @@ instance Show ChiSquared where
   showsPrec i (ChiSquared n) = defaultShow1 "chiSquared" n i
 instance Read ChiSquared where
   readPrec = defaultReadPrecM1 "chiSquared" chiSquaredE
-
-instance Binary ChiSquared where
-  put (ChiSquared x) = put x
-  get = do n <- get
-           maybe (fail $ errMsg n) return $ chiSquaredE n
-
 
 -- | Construct chi-squared distribution. Number of degrees of freedom
 --   must be positive.

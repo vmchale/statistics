@@ -18,8 +18,6 @@ module Statistics.Distribution.Transform
     ) where
 
 import Control.Applicative ((<*>))
-import Data.Binary (Binary)
-import Data.Binary (put, get)
 import Data.Data (Data, Typeable)
 import Data.Functor ((<$>))
 import GHC.Generics (Generic)
@@ -37,10 +35,6 @@ data LinearTransform d = LinearTransform
   , linTransDistr    :: d
     -- ^ Distribution being transformed.
   } deriving (Eq, Show, Read, Typeable, Data, Generic)
-
-instance (Binary d) => Binary (LinearTransform d) where
-    get = LinearTransform <$> get <*> get <*> get
-    put (LinearTransform x y z) = put x >> put y >> put z
 
 -- | Apply linear transformation to distribution.
 scaleAround :: Double           -- ^ Fixed point

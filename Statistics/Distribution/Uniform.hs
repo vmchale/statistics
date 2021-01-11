@@ -22,7 +22,6 @@ module Statistics.Distribution.Uniform
     ) where
 
 import Control.Applicative
-import Data.Binary         (Binary(..))
 import Data.Data           (Data, Typeable)
 import GHC.Generics        (Generic)
 import qualified System.Random.MWC       as MWC
@@ -42,13 +41,6 @@ instance Show UniformDistribution where
   showsPrec i (UniformDistribution a b) = defaultShow2 "uniformDistr" a b i
 instance Read UniformDistribution where
   readPrec = defaultReadPrecM2 "uniformDistr" uniformDistrE
-
-instance Binary UniformDistribution where
-  put (UniformDistribution x y) = put x >> put y
-  get = do
-    a <- get
-    b <- get
-    maybe (fail errMsg) return $ uniformDistrE a b
 
 -- | Create uniform distribution.
 uniformDistr :: Double -> Double -> UniformDistribution

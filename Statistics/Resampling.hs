@@ -42,10 +42,8 @@ module Statistics.Resampling
 import Control.Concurrent.Async (forConcurrently_)
 import Control.Monad (forM_, forM, replicateM, liftM2)
 import Control.Monad.Primitive (PrimMonad(..))
-import Data.Binary (Binary(..))
 import Data.Data (Data, Typeable)
 import Data.Vector.Algorithms.Intro (sort)
-import Data.Vector.Binary ()
 import Data.Vector.Generic (unsafeFreeze,unsafeThaw)
 import Data.Word (Word32)
 import qualified Data.Foldable as T
@@ -74,10 +72,6 @@ newtype Resample = Resample {
       fromResample :: U.Vector Double
     } deriving (Eq, Read, Show, Typeable, Data, Generic)
 
-instance Binary Resample where
-    put = put . fromResample
-    get = fmap Resample get
-
 data Bootstrap v a = Bootstrap
   { fullSample :: !a
   , resamples  :: v a
@@ -87,10 +81,6 @@ data Bootstrap v a = Bootstrap
            , Typeable, Data
 #endif
            )
-
-instance (Binary a,   Binary   (v a)) => Binary   (Bootstrap v a) where
-  get = liftM2 Bootstrap get get
-  put (Bootstrap fs rs) = put fs >> put rs
 
 
 -- | An estimator of a property of a sample, such as its 'mean'.

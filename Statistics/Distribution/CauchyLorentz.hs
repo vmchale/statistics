@@ -24,7 +24,6 @@ module Statistics.Distribution.CauchyLorentz (
   ) where
 
 import Control.Applicative
-import Data.Binary            (Binary(..))
 import Data.Maybe             (fromMaybe)
 import Data.Data              (Data, Typeable)
 import GHC.Generics           (Generic)
@@ -48,13 +47,6 @@ instance Show CauchyDistribution where
   showsPrec i (CD m s) = defaultShow2 "cauchyDistribution" m s i
 instance Read CauchyDistribution where
   readPrec = defaultReadPrecM2 "cauchyDistribution" cauchyDistributionE
-
-instance Binary CauchyDistribution where
-    put (CD m s) = put m >> put s
-    get = do
-      m <- get
-      s <- get
-      maybe (error $ errMsg m s) return $ cauchyDistributionE m s
 
 
 -- | Cauchy distribution

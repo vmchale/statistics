@@ -27,7 +27,6 @@ module Statistics.Distribution.Poisson
     ) where
 
 import Control.Applicative
-import Data.Binary          (Binary(..))
 import Data.Data            (Data, Typeable)
 import GHC.Generics         (Generic)
 import Numeric.SpecFunctions (incompleteGamma,logFactorial)
@@ -47,12 +46,6 @@ instance Show PoissonDistribution where
   showsPrec i (PD l) = defaultShow1 "poisson" l i
 instance Read PoissonDistribution where
   readPrec = defaultReadPrecM1 "poisson" poissonE
-
-instance Binary PoissonDistribution where
-  put = put . poissonLambda
-  get = do
-    l <- get
-    maybe (fail $ errMsg l) return $ poissonE l
 
 instance D.Distribution PoissonDistribution where
     cumulative (PD lambda) x

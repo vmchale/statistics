@@ -23,7 +23,6 @@ module Statistics.Distribution.FDistribution (
   ) where
 
 import Control.Applicative
-import Data.Binary            (Binary(..))
 import Data.Data              (Data, Typeable)
 import GHC.Generics           (Generic)
 import Numeric.SpecFunctions (
@@ -46,13 +45,6 @@ instance Show FDistribution where
   showsPrec i (F n m _) = defaultShow2 "fDistributionReal" n m i
 instance Read FDistribution where
   readPrec = defaultReadPrecM2 "fDistributionReal" fDistributionRealE
-
-instance Binary FDistribution where
-  put (F n m _) = put n >> put m
-  get = do
-    n <- get
-    m <- get
-    maybe (fail $ errMsgR n m) return $ fDistributionRealE n m
 
 fDistribution :: Int -> Int -> FDistribution
 fDistribution n m = maybe (error $ errMsg n m) id $ fDistributionE n m

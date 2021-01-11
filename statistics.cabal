@@ -114,13 +114,11 @@ library
                  --
                , async                   >= 2.2.2 && <2.3
                , deepseq                 >= 1.1.0.2
-               , binary                  >= 0.5.1.0
                , primitive               >= 0.3
                , dense-linear-algebra    >= 0.1 && <0.2
                , vector                  >= 0.10
                , vector-algorithms       >= 0.4
                , vector-th-unbox
-               , vector-binary-instances >= 0.2.1
                , data-default-class      >= 0.1.2
   if !impl(ghcjs)
     build-depends:
@@ -157,7 +155,6 @@ test-suite statistics-tests
                , statistics
                , dense-linear-algebra
                , QuickCheck >= 2.7.5
-               , binary
                , erf
                , aeson
                , ieee754 >= 0.7.3

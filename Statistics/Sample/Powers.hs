@@ -48,9 +48,7 @@ module Statistics.Sample.Powers
     ) where
 
 import Control.Monad.ST
-import Data.Binary           (Binary(..))
 import Data.Data             (Data, Typeable)
-import Data.Vector.Binary    ()
 import Data.Vector.Unboxed   ((!))
 import GHC.Generics          (Generic)
 import Numeric.SpecFunctions (choose)
@@ -65,10 +63,6 @@ import qualified Statistics.Sample.Internal  as S
 
 newtype Powers = Powers (U.Vector Double)
     deriving (Eq, Read, Show, Typeable, Data, Generic)
-
-instance Binary Powers where
-    put (Powers v) = put v
-    get = fmap Powers get
 
 -- | O(/n/) Collect the /n/ simple powers of a sample.
 --

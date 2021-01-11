@@ -9,7 +9,6 @@ module Statistics.Test.Types (
 
 import Control.DeepSeq  (NFData(..))
 import Control.Monad    (liftM3)
-import Data.Binary      (Binary (..))
 import Data.Data (Typeable, Data)
 import GHC.Generics
 
@@ -21,11 +20,6 @@ data TestResult = Significant    -- ^ Null hypothesis should be rejected
                 | NotSignificant -- ^ Data is compatible with hypothesis
                   deriving (Eq,Ord,Show,Typeable,Data,Generic)
 
-instance Binary   TestResult where
-  get = do
-      sig <- get
-      if sig then return Significant else return NotSignificant
-  put = put . (== Significant)
 instance NFData   TestResult
 
 
@@ -42,9 +36,6 @@ data Test distr = Test
   }
   deriving (Eq,Ord,Show,Typeable,Data,Generic,Functor)
 
-instance (Binary   d) => Binary   (Test d) where
-  get = liftM3 Test get get get
-  put (Test sign stat distr) = put sign >> put stat >> put distr
 instance (NFData   d) => NFData   (Test d) where
   rnf (Test _ _ a) = rnf a
 
@@ -67,17 +58,6 @@ data PositionTest
     -- ^ Test if second sample is larger than first.
   deriving (Eq,Ord,Show,Typeable,Data,Generic)
 
-instance Binary   PositionTest where
-  get = do
-    i <- get
-    case (i :: Int) of
-      0 -> return SamplesDiffer
-      1 -> return AGreater
-      2 -> return BGreater
-      _ -> fail "Invalid PositionTest"
-  put SamplesDiffer = put (0 :: Int)
-  put AGreater      = put (1 :: Int)
-  put BGreater      = put (2 :: Int)
 instance NFData   PositionTest
 
 -- | significant if parameter is 'True', not significant otherwise

@@ -30,7 +30,6 @@ module Statistics.Distribution.Hypergeometric
     ) where
 
 import Control.Applicative
-import Data.Binary          (Binary(..))
 import Data.Data            (Data, Typeable)
 import GHC.Generics         (Generic)
 import Numeric.MathFunctions.Constants (m_epsilon,m_neg_inf)
@@ -50,14 +49,6 @@ instance Show HypergeometricDistribution where
   showsPrec i (HD m l k) = defaultShow3 "hypergeometric" m l k i
 instance Read HypergeometricDistribution where
   readPrec = defaultReadPrecM3 "hypergeometric" hypergeometricE
-
-instance Binary HypergeometricDistribution where
-  put (HD m l k) = put m >> put l >> put k
-  get = do
-    m <- get
-    l <- get
-    k <- get
-    maybe (fail $ errMsg m l k) return $ hypergeometricE m l k
 
 instance D.Distribution HypergeometricDistribution where
     cumulative = cumulative

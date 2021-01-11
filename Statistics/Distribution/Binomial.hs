@@ -26,7 +26,6 @@ module Statistics.Distribution.Binomial
     ) where
 
 import Control.Applicative
-import Data.Binary           (Binary(..))
 import Data.Data             (Data, Typeable)
 import GHC.Generics          (Generic)
 import Numeric.SpecFunctions           (choose,logChoose,incompleteBeta,log1p)
@@ -49,14 +48,6 @@ instance Show BinomialDistribution where
   showsPrec i (BD n p) = defaultShow2 "binomial" n p i
 instance Read BinomialDistribution where
   readPrec = defaultReadPrecM2 "binomial" binomialE
-
-instance Binary BinomialDistribution where
-  put (BD x y) = put x >> put y
-  get = do
-    n <- get
-    p <- get
-    maybe (fail $ errMsg n p) return $ binomialE n p
-
 
 
 instance D.Distribution BinomialDistribution where

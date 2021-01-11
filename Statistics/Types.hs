@@ -65,7 +65,6 @@ module Statistics.Types
 
 import Control.Monad                ((<=<), liftM2, liftM3)
 import Control.DeepSeq              (NFData(..))
-import Data.Binary                  (Binary(..))
 import Data.Data                    (Data,Typeable)
 import Data.Maybe                   (fromMaybe)
 import Data.Vector.Unboxed          (Unbox)
@@ -111,10 +110,6 @@ instance Show a => Show (CL a) where
   showsPrec n (CL p) = defaultShow1 "mkCLFromSignificance" p n
 instance (Num a, Ord a, Read a) => Read (CL a) where
   readPrec = defaultReadPrecM1 "mkCLFromSignificance" mkCLFromSignificanceE
-
-instance (Binary a, Num a, Ord a) => Binary (CL a) where
-  put (CL p) = put p
-  get        = maybe (fail errMkCL) return . mkCLFromSignificanceE =<< get
 
 instance NFData   a => NFData   (CL a) where
   rnf (CL a) = rnf a
@@ -212,10 +207,6 @@ instance Show a => Show (PValue a) where
   showsPrec n (PValue p) = defaultShow1 "mkPValue" p n
 instance (Num a, Ord a, Read a) => Read (PValue a) where
   readPrec = defaultReadPrecM1 "mkPValue" mkPValueE
-
-instance (Binary a, Num a, Ord a) => Binary (PValue a) where
-  put (PValue p) = put p
-  get            = maybe (fail errMkPValue) return . mkPValueE =<< get
 
 instance NFData a => NFData (PValue a) where
   rnf (PValue a) = rnf a
@@ -320,9 +311,6 @@ data Estimate e a = Estimate
 #endif
                )
 
-instance (Binary   (e a), Binary   a) => Binary   (Estimate e a) where
-  get = liftM2 Estimate get get
-  put (Estimate ep ee) = put ep >> put ee
 instance (NFData   (e a), NFData   a) => NFData   (Estimate e a) where
     rnf (Estimate x dx) = rnf x `seq` rnf dx
 
@@ -337,9 +325,6 @@ newtype NormalErr a = NormalErr
   }
   deriving (Eq, Read, Show, Typeable, Data, Generic)
 
-instance Binary   a => Binary   (NormalErr a) where
-  get = fmap NormalErr get
-  put = put . normalError
 instance NFData   a => NFData   (NormalErr a) where
     rnf (NormalErr x) = rnf x
 
@@ -358,9 +343,6 @@ data ConfInt a = ConfInt
   }
   deriving (Read,Show,Eq,Typeable,Data,Generic)
 
-instance Binary   a => Binary   (ConfInt a) where
-  get = liftM3 ConfInt get get get
-  put (ConfInt l u cl) = put l >> put u >> put cl 
 instance NFData   a => NFData   (ConfInt a) where
     rnf (ConfInt x y _) = rnf x `seq` rnf y
 
@@ -446,14 +428,6 @@ data UpperLimit a = UpperLimit
     } deriving (Eq, Read, Show, Typeable, Data, Generic)
 
 
-instance Binary   a => Binary   (UpperLimit a) where
-  get = liftM2 UpperLimit get get
-  put (UpperLimit l cl) = put l >> put cl
-instance NFData   a => NFData   (UpperLimit a) where
-    rnf (UpperLimit x cl) = rnf x `seq` rnf cl
-
-
-
 -- | Lower limit. They are usually given for large quantities when
 --   it's not possible to measure them. For example: proton half-life
 data LowerLimit a = LowerLimit {
@@ -463,9 +437,6 @@ data LowerLimit a = LowerLimit {
     -- ^ Confidence level for which limit was calculated
   } deriving (Eq, Read, Show, Typeable, Data, Generic)
 
-instance Binary   a => Binary   (LowerLimit a) where
-  get = liftM2 LowerLimit get get
-  put (LowerLimit l cl) = put l >> put cl
 instance NFData   a => NFData   (LowerLimit a) where
     rnf (LowerLimit x cl) = rnf x `seq` rnf cl
 

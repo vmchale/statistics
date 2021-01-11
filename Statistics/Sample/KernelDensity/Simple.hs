@@ -46,9 +46,7 @@ module Statistics.Sample.KernelDensity.Simple
     -- $references
     ) where
 
-import Data.Binary (Binary(..))
 import Data.Data (Data, Typeable)
-import Data.Vector.Binary ()
 import GHC.Generics (Generic)
 import Numeric.MathFunctions.Constants (m_1_sqrt_2, m_2_sqrt_pi)
 import Prelude hiding (sum)
@@ -62,10 +60,6 @@ import qualified Data.Vector.Unboxed as U
 newtype Points = Points {
       fromPoints :: U.Vector Double
     } deriving (Eq, Read, Show, Typeable, Data, Generic)
-
-instance Binary Points where
-    get = fmap Points get
-    put = put . fromPoints
 
 -- | Bandwidth estimator for an Epanechnikov kernel.
 epanechnikovBW :: Double -> Bandwidth

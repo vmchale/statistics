@@ -21,7 +21,6 @@ module Statistics.Distribution.StudentT (
   ) where
 
 import Control.Applicative
-import Data.Binary         (Binary(..))
 import Data.Data           (Data, Typeable)
 import GHC.Generics        (Generic)
 import Numeric.SpecFunctions (
@@ -40,12 +39,6 @@ instance Show StudentT where
   showsPrec i (StudentT ndf) = defaultShow1 "studentT" ndf i
 instance Read StudentT where
   readPrec = defaultReadPrecM1 "studentT" studentTE
-
-instance Binary StudentT where
-  put = put . studentTndf
-  get = do
-    ndf <- get
-    maybe (fail $ errMsg ndf) return $ studentTE ndf
 
 -- | Create Student-T distribution. Number of parameters must be positive.
 studentT :: Double -> StudentT

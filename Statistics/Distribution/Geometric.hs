@@ -35,7 +35,6 @@ module Statistics.Distribution.Geometric
 
 import Control.Applicative
 import Control.Monad       (liftM)
-import Data.Binary         (Binary(..))
 import Data.Data           (Data, Typeable)
 import GHC.Generics        (Generic)
 import Numeric.MathFunctions.Constants (m_pos_inf, m_neg_inf)
@@ -58,12 +57,6 @@ instance Show GeometricDistribution where
   showsPrec i (GD x) = defaultShow1 "geometric" x i
 instance Read GeometricDistribution where
   readPrec = defaultReadPrecM1 "geometric" geometricE
-
-instance Binary GeometricDistribution where
-  put (GD x) = put x
-  get = do
-    x <- get
-    maybe (fail $ errMsg x) return  $ geometricE x
 
 
 instance D.Distribution GeometricDistribution where
@@ -149,12 +142,6 @@ instance Show GeometricDistribution0 where
   showsPrec i (GD0 x) = defaultShow1 "geometric0" x i
 instance Read GeometricDistribution0 where
   readPrec = defaultReadPrecM1 "geometric0" geometric0E
-
-instance Binary GeometricDistribution0 where
-  put (GD0 x) = put x
-  get = do
-    x <- get
-    maybe (fail $ errMsg x) return  $ geometric0E x
 
 
 instance D.Distribution GeometricDistribution0 where

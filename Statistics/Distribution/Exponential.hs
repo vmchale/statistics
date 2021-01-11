@@ -26,7 +26,6 @@ module Statistics.Distribution.Exponential
     ) where
 
 import Control.Applicative
-import Data.Binary                     (Binary, put, get)
 import Data.Data                       (Data, Typeable)
 import GHC.Generics                    (Generic)
 import Numeric.SpecFunctions           (log1p,expm1)
@@ -48,12 +47,6 @@ instance Show ExponentialDistribution where
   showsPrec n (ED l) = defaultShow1 "exponential" l n
 instance Read ExponentialDistribution where
   readPrec = defaultReadPrecM1 "exponential" exponentialE
-
-instance Binary ExponentialDistribution where
-  put = put . edLambda
-  get = do
-    l <- get
-    maybe (fail $ errMsg l) return $ exponentialE l
 
 instance D.Distribution ExponentialDistribution where
     cumulative      = cumulative

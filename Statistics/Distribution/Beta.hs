@@ -24,7 +24,6 @@ module Statistics.Distribution.Beta
   ) where
 
 import Control.Applicative
-import Data.Binary           (Binary(..))
 import Data.Data             (Data, Typeable)
 import GHC.Generics          (Generic)
 import Numeric.SpecFunctions (
@@ -46,13 +45,6 @@ instance Show BetaDistribution where
   showsPrec n (BD a b) = defaultShow2 "improperBetaDistr" a b n
 instance Read BetaDistribution where
   readPrec = defaultReadPrecM2 "improperBetaDistr" improperBetaDistrE
-
-instance Binary BetaDistribution where
-  put (BD a b) = put a >> put b
-  get = do
-    a <- get
-    b <- get
-    maybe (fail $ errMsgI a b) return $ improperBetaDistrE a b
 
 
 -- | Create beta distribution. Both shape parameters must be positive.

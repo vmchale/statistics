@@ -2,7 +2,6 @@
 -- Tests for data serialization instances
 module Tests.Serialization where
 
-import Data.Binary (Binary,decode,encode)
 import Data.Typeable
 
 import Statistics.Distribution.Beta           (BetaDistribution)
@@ -63,23 +62,19 @@ tests = testGroup "Test for data serialization"
 
 
 serializationTests
-  :: (Eq a, Typeable a, Binary a, Show a, Read a, Arbitrary a)
+  :: (Eq a, Typeable a, Show a, Read a, Arbitrary a)
   => T a -> TestTree
 serializationTests t = serializationTests' (typeName t) t
 
 -- Not all types are Typeable, unfortunately
 serializationTests'
-  :: (Eq a, Binary a, Show a, Read a, Arbitrary a)
+  :: (Eq a, Show a, Read a, Arbitrary a)
   => String -> T a -> TestTree
 serializationTests' name t = testGroup ("Tests for: " ++ name)
   [ testProperty "show/read" (p_showRead t)
-  , testProperty "binary"    (p_binary   t)
   ]
 
 
-
-p_binary :: (Eq a, Binary a) => T a -> a -> Bool
-p_binary _ a = a == (decode . encode) a
 
 p_showRead :: (Eq a, Read a, Show a) => T a -> a -> Bool
 p_showRead _ a = a == (read . show) a

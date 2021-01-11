@@ -23,7 +23,6 @@ module Statistics.Distribution.Normal
     ) where
 
 import Control.Applicative
-import Data.Binary           (Binary(..))
 import Data.Data             (Data, Typeable)
 import GHC.Generics          (Generic)
 import Numeric.MathFunctions.Constants (m_sqrt_2, m_sqrt_2_pi)
@@ -48,13 +47,6 @@ instance Show NormalDistribution where
   showsPrec i (ND m s _ _) = defaultShow2 "normalDistr" m s i
 instance Read NormalDistribution where
   readPrec = defaultReadPrecM2 "normalDistr" normalDistrE
-
-instance Binary NormalDistribution where
-    put (ND m sd _ _) = put m >> put sd
-    get = do
-      m  <- get
-      sd <- get
-      maybe (fail $ errMsg m sd) return $ normalDistrE m sd
 
 instance D.Distribution NormalDistribution where
     cumulative      = cumulative

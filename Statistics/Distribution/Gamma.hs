@@ -29,7 +29,6 @@ module Statistics.Distribution.Gamma
     ) where
 
 import Control.Applicative
-import Data.Binary          (Binary(..))
 import Data.Data            (Data, Typeable)
 import GHC.Generics         (Generic)
 import Numeric.MathFunctions.Constants (m_pos_inf, m_NaN, m_neg_inf)
@@ -51,14 +50,6 @@ instance Show GammaDistribution where
   showsPrec i (GD k theta) = defaultShow2 "improperGammaDistr" k theta i
 instance Read GammaDistribution where
   readPrec = defaultReadPrecM2 "improperGammaDistr" improperGammaDistrE
-
-
-instance Binary GammaDistribution where
-  put (GD x y) = put x >> put y
-  get = do
-    k     <- get
-    theta <- get
-    maybe (fail $ errMsgI k theta) return $ improperGammaDistrE k theta
 
 
 -- | Create gamma distribution. Both shape and scale parameters must

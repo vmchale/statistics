@@ -29,7 +29,6 @@ module Statistics.Distribution.Laplace
     ) where
 
 import Control.Applicative
-import Data.Binary          (Binary(..))
 import Data.Data            (Data, Typeable)
 import GHC.Generics         (Generic)
 import qualified Data.Vector.Generic             as G
@@ -50,13 +49,6 @@ instance Show LaplaceDistribution where
   showsPrec i (LD l s) = defaultShow2 "laplace" l s i
 instance Read LaplaceDistribution where
   readPrec = defaultReadPrecM2 "laplace" laplaceE
-
-instance Binary LaplaceDistribution where
-  put (LD l s) = put l >> put s
-  get = do
-    l <- get
-    s <- get
-    maybe (fail $ errMsg l s) return $ laplaceE l s
 
 instance D.Distribution LaplaceDistribution where
     cumulative      = cumulative

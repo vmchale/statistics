@@ -29,7 +29,6 @@ module Statistics.Distribution.DiscreteUniform
     ) where
 
 import Control.Applicative ((<$>), (<*>), empty)
-import Data.Binary  (Binary(..))
 import Data.Data    (Data, Typeable)
 import GHC.Generics (Generic)
 
@@ -50,10 +49,6 @@ instance Show DiscreteUniform where
   showsPrec i (U a b) = defaultShow2 "discreteUniformAB" a b i
 instance Read DiscreteUniform where
   readPrec = defaultReadPrecM2 "discreteUniformAB" (\a b -> Just (discreteUniformAB a b))
-
-instance Binary DiscreteUniform where
-  put (U a b) = put a >> put b
-  get         = discreteUniformAB <$> get <*> get
 
 instance D.Distribution DiscreteUniform where
   cumulative (U a b) x

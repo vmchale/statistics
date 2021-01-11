@@ -51,7 +51,6 @@ module Statistics.Quantile
     -- $references
     ) where
 
-import           Data.Binary            (Binary)
 import           Data.Data              (Data,Typeable)
 import           Data.Default.Class
 import qualified Data.Foldable        as F
@@ -133,8 +132,6 @@ data ContParam = ContParam {-# UNPACK #-} !Double {-# UNPACK #-} !Double
 -- | We use 's' as default value which is same as R's default.
 instance Default ContParam where
   def = s
-
-instance Binary   ContParam
 
 -- | O(/n/·log /n/). Estimate the /k/th /q/-quantile of a sample /x/,
 --   using the continuous sample method with the given parameters.
