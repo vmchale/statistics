@@ -8,7 +8,6 @@ module Statistics.Test.Types (
   ) where
 
 import Control.DeepSeq  (NFData(..))
-import Control.Monad    (liftM3)
 import Data.Data (Typeable, Data)
 import GHC.Generics
 

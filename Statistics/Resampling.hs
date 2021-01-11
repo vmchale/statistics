@@ -40,7 +40,7 @@ module Statistics.Resampling
     ) where
 
 import Control.Concurrent.Async (forConcurrently_)
-import Control.Monad (forM_, forM, replicateM, liftM2)
+import Control.Monad (forM_, forM, replicateM)
 import Control.Monad.Primitive (PrimMonad(..))
 import Data.Data (Data, Typeable)
 import Data.Vector.Algorithms.Intro (sort)
