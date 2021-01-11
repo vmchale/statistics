@@ -101,6 +101,8 @@ library
     Statistics.Test.WilcoxonT
     Statistics.Transform
     Statistics.Types
+  default-language:
+    Haskell98
   other-modules:
     Statistics.Distribution.Poisson.Internal
     Statistics.Internal
@@ -149,6 +151,8 @@ test-suite statistics-tests
     Tests.Serialization
     Tests.Transform
     Tests.Quantile
+  default-language:
+    Haskell98
   ghc-options:
     -Wall -threaded -rtsopts -fsimpl-tick-factor=500
   build-depends: base
