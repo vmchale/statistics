@@ -156,7 +156,6 @@ test-suite statistics-tests
                , dense-linear-algebra
                , QuickCheck >= 2.7.5
                , erf
-               , aeson
                , ieee754 >= 0.7.3
                , math-functions
                , mwc-random
