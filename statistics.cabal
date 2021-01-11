@@ -27,7 +27,7 @@ license-file:   LICENSE
 homepage:       https://github.com/bos/statistics
 bug-reports:    https://github.com/bos/statistics/issues
 author:         Bryan O'Sullivan <bos@serpentine.com>, Alexey Khudaykov <alexey.skladnoy@gmail.com>
-maintainer:     Bryan O'Sullivan <bos@serpentine.com>, Alexey Khudaykov <alexey.skladnoy@gmail.com>
+maintainer:     Vanessa McHale <vamchale@gmail.com>
 copyright:      2009-2014 Bryan O'Sullivan
 category:       Math, Statistics
 build-type:     Simple

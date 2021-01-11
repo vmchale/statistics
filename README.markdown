@@ -24,14 +24,7 @@ Master [git mirror](https://github.com/bos/statistics):
 
 * `git clone git://github.com/bos/statistics.git`
 
-There's also a [Mercurial mirror](https://bitbucket.org/bos/statistics):
-
-* `hg clone https://bitbucket.org/bos/statistics`
-
-(You can create and contribute changes using either Mercurial or git.)
-
-
 # Authors
 
-This library is written and maintained by Bryan O'Sullivan,
+This library is written by Bryan O'Sullivan,
 <bos@serpentine.com>.
