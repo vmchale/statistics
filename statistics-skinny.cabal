@@ -1,4 +1,4 @@
-name:           statistics
+name:           statistics-skinny
 version:        0.15.2.0
 synopsis:       A library of statistical types, data, and functions
 description:
@@ -152,7 +152,7 @@ test-suite statistics-tests
   ghc-options:
     -Wall -threaded -rtsopts -fsimpl-tick-factor=500
   build-depends: base
-               , statistics
+               , statistics-skinny
                , dense-linear-algebra
                , QuickCheck >= 2.7.5
                , erf
@@ -169,4 +169,4 @@ test-suite statistics-tests
 
 source-repository head
   type:     git
-  location: https://github.com/bos/statistics
+  location: https://github.com/vmchale/statistics
